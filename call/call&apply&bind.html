@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p>原型Function方法上的原型上的方法call,  fn.call(obj)
+		在Function中找到原型上的call方法，让call方法执行，在执行的过程中把this变为obj
+		，call方法的作用就是让方法中的this变为obj</p>
+
+<script>
+// "use strict"  //告诉当前浏览器接下来的JS代码将按照严格模式进行编写
+
+var obj ={name:"珠峰培训"}
+function fn(num1,num2){
+	console.log(num1+num2,this)
+	// console.log(this)
+}
+// fn(100,200)
+// fn.call(100,200)  //this->100,num1=200,num2=undefined  NAN
+// fn.call(obj,100,200)  //call方法中第一个参数是给fn中的this变为谁，后面的参数就是fn执行的时候传的形参值
+// fn.call() //this->window  在严格模式下是undefined 
+// fn.call(null)  //this->window  在严格模式下是 null
+// fn.call(undefined)  //this->window  在严格模式下是undefined 
+
+//第二个参数及以后的参数都是给fn传的参数
+
+// apply 和 call方法的作用是一模一样的，都是用来改变方法中this关键字的并且把方法执行，并且在严格模式下和非严格模式下对于第一个参数是null、undefined这种情况的规律也是一样的
+// fn.call(obj,100,200)
+// fn.apply(obj,[100,200])  //->call在给fn传递参数的时候，是一个个的传递值的，二apply不是一个个传，而是要给fn传递的参数值统一的放在一个数组中进行操作 但是也相当于一个个给fn的形参赋值
+// bind:这个方法在IE6-8下不兼容  和call和apply类似都是用来改变this关键字的，
+fn.call(obj,1,2)  //->改变this和执行fn函数都是一起完成的
+fn.bind(obj,1,2)  //只是改变了fn中的this为obj，并且给fn传递了两个参数值1,2，但是此时并没有把fn这个函数执行
+// 预处理，事先把fn的this改变为我们想要的结果，并且把对应的参数值也准备好，以后要用到了，直接的执行即可
+var tempFn = fn.bind(obj,1,2)
+// 执行bind会有一个返回值，这个返回值tempFn就是我们把fn的this改变后的结果
+tempFn();
+
+fn(1,2)
+
+// this，自执行函数执行方法中的this指向window
+
+// 给元素某一个行为绑定方法，当行为触发的时候，执行绑定的方法，方法中的this是当前元素
+
+// 方法执行，看方法名前面有没有.,有的话 ，.前面是谁this就是谁，没有的话this就是window
+// 在构造函数模式中，this.xxx= xxx中的this是当前类的一个实例
+// 使用call和apply和bind来改变this的指向(一旦遇到call和apply上述四条都没有用了)
+
+// 严格模式
+// undefined
+// 在严格模式下，this相对于非严格模式下this的区别在于：对于JS代码中没有写入执行主体的情况下，非严格模式下默认是window执行，所以this指向的是window，但是在严格模式下，没有写的就是没有执行主体，this指向的是undefined
+
+// 你以为你以为的就是你以为的 
+
+
+</script>
+</body>
+</html>
